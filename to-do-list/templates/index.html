@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>To-Do List</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">  <!-- Link to external CSS file -->
+</head>
+<body>
+    <h1>To-Do List</h1>  <!-- Heading for the To-Do List -->
+    <form action="/add" method="post">  <!-- Form for adding a new task -->
+        <input type="text" name="task" placeholder="Enter a new task" required>  <!-- Input field for entering a new task -->
+        <button type="submit">Add</button>  <!-- Button to submit the new task -->
+    </form>
+    <ul>  <!-- Unordered list to display tasks -->
+        {% for task in tasks %}  <!-- Loop through tasks list -->
+        <li{% if '✓' in task %} class="completed"{% endif %}>  <!-- List item for each task, check for completion -->
+            {% if '✓' not in task %}  <!-- Check if task is not completed -->
+            <a href="/complete/{{ loop.index0 }}">✓</a>  <!-- Link to mark task as complete -->
+            {% endif %}
+            {{ task }}  <!-- Display the task -->
+            <a href="/edit/{{ loop.index0 }}">Edit</a>  <!-- Link to edit the task -->
+            <a href="/delete/{{ loop.index0 }}">Delete</a>  <!-- Link to delete the task -->
+        </li>
+        {% endfor %}
+    </ul>
+</body>
+</html>
